@@ -52,7 +52,7 @@
    
      ![](doc_images/pi_ups_wiring1.jpg)
    
-4. 执行`minicom -D /dev/serial0 -b 9600`，读取UPS的版本号
+4. 执行`minicom -D /dev/serial0 -b 9600`，并打开UPS的开关，读取UPS的版本号
      ![](doc_images/version_v31p.png)
 
    **退出minicom的方式**：先按ctrl+a，然后按z键，最后按x键
@@ -173,5 +173,11 @@
     * 或者在自带python2的系统上执行：`python2   ups_update_python2.py   /dev/serial0   filename.bin` 
 
 
+
+​      
+
+
+
+​    
 
 
