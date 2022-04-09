@@ -49,7 +49,7 @@
    * 然后接上UPS主板的3条杜邦线：GND（黑色）、TX（黄色）、RX（绿色）
 
      ![](doc_images/ups_wiring2.jpg)
-  
+   
      ![](doc_images/pi_ups_wiring1.jpg)
    
 4. 执行`minicom -D /dev/serial0 -b 9600`，读取UPS的版本号
@@ -104,14 +104,14 @@
 
    ![](doc_images/update_success.png)
 
-5. 关闭UPS电源，并且拔掉UPS上的GND、TX、RX，这3条杜邦线。（**这一步非常重要，否则下一步观察版本将会出错）
+5. 关闭UPS电源，并且拔掉UPS上的GND、TX、RX，这3条杜邦线。（**这一步非常重要，否则下一步观察版本将会出错**）
    ![](doc_images/remove_wiring1.jpg)
 
 
 
 #### 观察软件版本号：
 
-1. 接上UPS主板的GND、TX、RX。（注意线序。不要插错，插错可能会烧毁！），保持开关为关闭状态。
+1. 接上UPS主板的GND、TX、RX。（**注意线序。不要插错，插错可能会烧毁！**），保持开关为关闭状态。
    ![](doc_images/pi_ups_wiring1.jpg)
 2. 执行`minicom -D /dev/serial0 -b 9600`，并打开UPS的开关。读取UPS的版本号
    ![](doc_images/v32p_version.png)
@@ -123,6 +123,23 @@
 
 
 
+### 升级命令行详述：
+
+> 在2022年1月之后的Raspberry Pi OS上只集成了python3开发环境，可以运行如下命令：
+>
+> `python3 ups_update_python3.py   path_of_uart_device    upgrade_firmware_filename`
+>
+> 例如：
+>
+> `python3 ups_update_python3.py   /dev/serial0   SmartUPS_V32P.bin`
+>
+>
+> 在2021年之前的Raspberry Pi OS上集成了python3和python2开发环境，除了上方的python3运行方式之外，还可以运行如下命令：
+>
+> `python2 ups_update_python2.py   path_of_uart_device    upgrade_firmware_filename`
+
+
+
 
 
 ### 答疑解惑
@@ -131,36 +148,30 @@
    乱码示意图：
    ![](doc_images/unreadable_text.png)
 
-   解释原因：由于Pi上串口在空闲时刻一直保持为高电平，微弱的电流会通过TX、RX信号线给MCU进行供电，所以导致MCU复位异常，而ISP升级方式是需要MCU进行冷启动才能进入Bootloader程序。所以在minicom上会看到一串乱码，而并不是可读的ASCII码。
+   解释原因：如果上述乱码现象是只出现于UPS通过Pi进行程序升级的过程中。这和供电方式有关系，升级状态的Pi是由外部电源适配器进行供电，而UPS是通过自身的电池进行供电，但由于Pi串口在空闲时刻一直保持为高电平，微弱的电流会通过TX、RX信号线给MCU持续供电，所以导致MCU复位异常，而ISP升级方式是需要MCU进行冷启动才能正确进入Bootloader程序。所以在minicom上会看到一串乱码，而并不是可读的ASCII码。
 
    解决方案：
 
    * UPS开关保持为关闭状态（开关打到OFF档位，Power LED是熄灭的状态）
    * 拔掉UPS主板的3条杜邦线：GND（黑色）、TX（黄色）、RX（绿色）
      ![](doc_images/remove_wiring1.jpg)
-     
    * 再接上UPS主板的3条杜邦线：GND（黑色）、TX（黄色）、RX（绿色）
      ![](doc_images/pi_ups_wiring1.jpg)
-     
    * 重新运行`minicom -D /dev/serial0 -b 9600`。退出minicom的方式是：先按ctrl+a，然后按z键，最后按x键
-
-
+   
+   **当升级结束后，在正常使用过程中，Pi是由UPS的USB输出口（或GPIO输出口）进行供电，则不会遇到此情况的情况。因为此时UPS是完全控制Pi的供电时序，并不需要拔插杜邦线的手续。**
+   
+   
 
  2. 执行`python3 ups_update_python3.py   /dev/serial0   SmartUPS_V32P.bin`，python解释器报错（AttributeError: module serial has no attribute Serial），显示为未找到serial类中Serial的方法。
     解释原因：由于Raspberry Pi OS系统版本经常更新，某些新版本python集成库不兼容导致。重新卸载系统自带库，并且重新安装一下python库即可解决。
     解决方案：
 
     * 卸载系统库：`pip uninstall serial`
-* 重新安装库：`pip install pyserial`
+    * 重新安装库：`pip install pyserial`
     * 再次执行`python3 ups_update_python3.py   /dev/serial0   filename.bin` 
-* 或者在自带python2的系统上执行：`python2   ups_update_python2.py   /dev/serial0   filename.bin` 
-    
+    * 或者在自带python2的系统上执行：`python2   ups_update_python2.py   /dev/serial0   filename.bin` 
 
 
-​      
-
-
-
-​    
 
 
