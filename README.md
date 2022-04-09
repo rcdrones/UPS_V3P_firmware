@@ -165,6 +165,7 @@ python2 ups_update_python2.py path_of_uart_device upgrade_firmware_filename
      ![](doc_images/pi_ups_wiring1.jpg)
    * Rerun `minicom -D /dev/serial0 -b 9600`. The way to exit minicom is: first press ctrl+a, then press the z key, and finally press the x key
    
+   
    **When the upgrade is over, in the normal use process, the Pi is powered by the USB output port (or GPIO output port) of the UPS, so this situation will not be encountered. Because the UPS completely controls the power supply sequence of the Pi at this time, there is no need to plug and unplug the Dupont line. **
    
    
