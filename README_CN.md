@@ -125,18 +125,24 @@
 
 ### 升级命令行详述：
 
-> 在2022年1月之后的Raspberry Pi OS上只集成了python3开发环境，可以运行如下命令：
->
-> `python3 ups_update_python3.py   path_of_uart_device    upgrade_firmware_filename`
->
-> 例如：
->
-> `python3 ups_update_python3.py   /dev/serial0   SmartUPS_V32P.bin`
->
->
-> 在2021年之前的Raspberry Pi OS上集成了python3和python2开发环境，除了上方的python3运行方式之外，还可以运行如下命令：
->
-> `python2 ups_update_python2.py   path_of_uart_device    upgrade_firmware_filename`
+在2022年1月之后的Raspberry Pi OS上只集成了python3开发环境，可以运行如下命令：
+
+```
+python3 ups_update_python3.py   path_of_uart_device    upgrade_firmware_filename
+```
+
+例如：
+
+```
+python3 ups_update_python3.py   /dev/serial0   SmartUPS_V32P.bin
+```
+
+
+在2021年之前的Raspberry Pi OS上集成了python3和python2开发环境，除了上方的python3运行方式之外，还可以运行如下命令：
+
+```
+python2 ups_update_python2.py   path_of_uart_device    upgrade_firmware_filename
+```
 
 
 
@@ -171,13 +177,5 @@
     * 重新安装库：`pip install pyserial`
     * 再次执行`python3 ups_update_python3.py   /dev/serial0   filename.bin` 
     * 或者在自带python2的系统上执行：`python2   ups_update_python2.py   /dev/serial0   filename.bin` 
-
-
-
-​      
-
-
-
-​    
 
 
